@@ -1,0 +1,167 @@
+<LoginScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        size_hint: 1, 1
+        padding: "24dp"
+        spacing: "0dp"
+
+        # ── Top spacer ──────────────────────────────────────────────────
+        Widget:
+            size_hint_y: 0.08
+
+        # ── App title ───────────────────────────────────────────────────
+        MDLabel:
+            text: "Expense Tracker"
+            font_style: "H5"
+            halign: "center"
+            adaptive_height: True
+
+        Widget:
+            size_hint_y: 0.04
+
+        # ── Mode label ──────────────────────────────────────────────────
+        MDLabel:
+            id: mode_label
+            text: ""
+            font_style: "Subtitle1"
+            halign: "center"
+            adaptive_height: True
+
+        Widget:
+            size_hint_y: 0.04
+
+        # ── PIN dots ────────────────────────────────────────────────────
+        MDBoxLayout:
+            size_hint_y: None
+            height: "48dp"
+            size_hint_x: None
+            width: "200dp"
+            pos_hint: {"center_x": 0.5}
+            spacing: "24dp"
+
+            MDIcon:
+                id: dot_0
+                icon: "circle-outline"
+                halign: "center"
+                size_hint_x: None
+                width: "32dp"
+
+            MDIcon:
+                id: dot_1
+                icon: "circle-outline"
+                halign: "center"
+                size_hint_x: None
+                width: "32dp"
+
+            MDIcon:
+                id: dot_2
+                icon: "circle-outline"
+                halign: "center"
+                size_hint_x: None
+                width: "32dp"
+
+            MDIcon:
+                id: dot_3
+                icon: "circle-outline"
+                halign: "center"
+                size_hint_x: None
+                width: "32dp"
+
+        Widget:
+            size_hint_y: 0.02
+
+        # ── Error label ─────────────────────────────────────────────────
+        MDLabel:
+            id: error_label
+            text: ""
+            halign: "center"
+            theme_text_color: "Custom"
+            text_color: 0.83, 0.18, 0.18, 1
+            adaptive_height: True
+
+        Widget:
+            size_hint_y: 0.04
+
+        # ── Numpad ──────────────────────────────────────────────────────
+        GridLayout:
+            cols: 3
+            size_hint_y: None
+            height: "288dp"
+            size_hint_x: None
+            width: "240dp"
+            pos_hint: {"center_x": 0.5}
+            spacing: "12dp"
+
+            MDRaisedButton:
+                text: "1"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("1")
+
+            MDRaisedButton:
+                text: "2"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("2")
+
+            MDRaisedButton:
+                text: "3"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("3")
+
+            MDRaisedButton:
+                text: "4"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("4")
+
+            MDRaisedButton:
+                text: "5"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("5")
+
+            MDRaisedButton:
+                text: "6"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("6")
+
+            MDRaisedButton:
+                text: "7"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("7")
+
+            MDRaisedButton:
+                text: "8"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("8")
+
+            MDRaisedButton:
+                text: "9"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("9")
+
+            MDIconButton:
+                icon: "backspace-outline"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.backspace()
+
+            MDRaisedButton:
+                text: "0"
+                size_hint: None, None
+                size: "64dp", "64dp"
+                on_release: root.append_digit("0")
+
+            # empty cell — auto-submit on 4th digit, no explicit confirm needed
+            Widget:
+                size_hint: None, None
+                size: "64dp", "64dp"
+
+        Widget:
+            size_hint_y: 1

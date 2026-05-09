@@ -1,0 +1,117 @@
+#:import MDTopAppBar kivymd.uix.toolbar.MDTopAppBar
+#:import MDFloatingActionButton kivymd.uix.button.MDFloatingActionButton
+
+<HomeScreen>:
+    # MDScreen is a RelativeLayout — MDBoxLayout fills it, FAB floats on top.
+    MDBoxLayout:
+        orientation: 'vertical'
+        size_hint: 1, 1
+
+        MDTopAppBar:
+            title: root.month_label
+            elevation: 2
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                adaptive_height: True
+                padding: "16dp", "16dp", "16dp", "88dp"
+                spacing: "16dp"
+
+                # ── Summary cards ──────────────────────────────────────────
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: "8dp"
+
+                    MDCard:
+                        orientation: 'vertical'
+                        padding: "10dp"
+                        size_hint_x: 1
+                        adaptive_height: True
+                        md_bg_color: 0.88, 0.97, 0.88, 1
+                        radius: [10]
+                        elevation: 0
+
+                        MDLabel:
+                            text: "Income"
+                            font_style: "Caption"
+                            halign: "center"
+                            adaptive_height: True
+
+                        MDLabel:
+                            id: income_amount
+                            text: "₹0.00"
+                            font_style: "H6"
+                            halign: "center"
+                            theme_text_color: "Custom"
+                            text_color: 0.18, 0.65, 0.18, 1
+                            adaptive_height: True
+                            shorten: True
+                            shorten_from: "right"
+
+                    MDCard:
+                        orientation: 'vertical'
+                        padding: "10dp"
+                        size_hint_x: 1
+                        adaptive_height: True
+                        md_bg_color: 0.98, 0.88, 0.88, 1
+                        radius: [10]
+                        elevation: 0
+
+                        MDLabel:
+                            text: "Expense"
+                            font_style: "Caption"
+                            halign: "center"
+                            adaptive_height: True
+
+                        MDLabel:
+                            id: expense_amount
+                            text: "₹0.00"
+                            font_style: "H6"
+                            halign: "center"
+                            theme_text_color: "Custom"
+                            text_color: 0.83, 0.18, 0.18, 1
+                            adaptive_height: True
+                            shorten: True
+                            shorten_from: "right"
+
+                    MDCard:
+                        orientation: 'vertical'
+                        padding: "10dp"
+                        size_hint_x: 1
+                        adaptive_height: True
+                        radius: [10]
+                        elevation: 0
+
+                        MDLabel:
+                            text: "Net"
+                            font_style: "Caption"
+                            halign: "center"
+                            adaptive_height: True
+
+                        MDLabel:
+                            id: net_amount
+                            text: "₹0.00"
+                            font_style: "H6"
+                            halign: "center"
+                            adaptive_height: True
+                            shorten: True
+                            shorten_from: "right"
+
+                # ── Recent transactions ────────────────────────────────────
+                MDLabel:
+                    text: "Recent Transactions"
+                    font_style: "Subtitle1"
+                    adaptive_height: True
+
+                MDBoxLayout:
+                    id: transaction_list
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: "6dp"
+
+    MDFloatingActionButton:
+        icon: "plus"
+        pos_hint: {"right": 0.95, "y": 0.02}
+        on_release: root.go_to_add()
+        md_bg_color: app.theme_cls.primary_color

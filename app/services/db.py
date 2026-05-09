@@ -48,6 +48,13 @@ MIGRATIONS: list[str] = [
         created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
     );
     """,
+    # v1 → v2: settings table for local key-value storage (PIN hash, etc.)
+    """
+    CREATE TABLE IF NOT EXISTS settings (
+        key   TEXT PRIMARY KEY,
+        value TEXT NOT NULL
+    );
+    """,
 ]
 
 _DEFAULT_CATEGORIES: list[tuple[str, str, str, str]] = [
