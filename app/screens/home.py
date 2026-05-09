@@ -10,6 +10,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.screen import MDScreen
 
 from app.services import analytics, repository
+from app.widgets.bottom_nav import BottomNavBar  # noqa: F401 — registers KV rule
 
 Builder.load_file(str(Path(__file__).parent.parent.parent / "assets" / "home.kv"))
 

@@ -1,0 +1,60 @@
+<CategoriesScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        size_hint: 1, 1
+
+        MDTopAppBar:
+            title: root.month_label
+            elevation: 2
+            left_action_items: [["chevron-left", lambda x: root.prev_month()]]
+            right_action_items: [["chevron-right", lambda x: root.next_month()]]
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "16dp"
+
+                # ── Expenses section ───────────────────────────────────
+                MDLabel:
+                    text: "Expenses"
+                    font_style: "Subtitle1"
+                    adaptive_height: True
+
+                MDBoxLayout:
+                    id: expense_list
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: "8dp"
+
+                MDLabel:
+                    id: expense_empty
+                    text: ""
+                    halign: "center"
+                    theme_text_color: "Hint"
+                    size_hint_y: None
+                    height: "32dp"
+
+                # ── Income section ─────────────────────────────────────
+                MDLabel:
+                    text: "Income"
+                    font_style: "Subtitle1"
+                    adaptive_height: True
+
+                MDBoxLayout:
+                    id: income_list
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: "8dp"
+
+                MDLabel:
+                    id: income_empty
+                    text: ""
+                    halign: "center"
+                    theme_text_color: "Hint"
+                    size_hint_y: None
+                    height: "32dp"
+
+        BottomNavBar:
+            active_tab: "categories"
