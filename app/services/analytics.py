@@ -53,3 +53,45 @@ def category_breakdown(month: datetime.date) -> list[dict[str, object]]:
         }
         for r in rows
     ]
+
+
+def budget_status(month: datetime.date) -> list[dict[str, object]]:
+    """Per budgeted category for the month: budgeted, spent, remaining, pct."""
+    prefix = month.strftime("%Y-%m")
+    conn = get_connection()
+    try:
+        rows = conn.execute(
+            """
+            SELECT c.id, c.name, b.amount AS budgeted,
+                   COALESCE(SUM(t.amount), 0) AS spent
+            FROM budgets b
+            JOIN categories c ON c.id = b.category_id
+            LEFT JOIN transactions t
+                ON t.category_id = c.id
+                AND t.type = 'expense'
+                AND t.date LIKE ?
+            GROUP BY c.id
+            ORDER BY c.name
+            """,
+            (f"{prefix}%",),
+        ).fetchall()
+    finally:
+        conn.close()
+
+    result: list[dict[str, object]] = []
+    for r in rows:
+        budgeted = Decimal(r["budgeted"])
+        spent = Decimal(r["spent"] or 0)
+        pct = float(spent / budgeted * 100) if budgeted else 0.0
+        result.append(
+            {
+                "category_id": r["id"],
+                "name": r["name"],
+                "budgeted": budgeted,
+                "spent": spent,
+                "remaining": budgeted - spent,
+                "pct": pct,
+                "over": spent > budgeted,
+            }
+        )
+    return result

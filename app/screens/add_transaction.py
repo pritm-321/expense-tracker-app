@@ -20,12 +20,27 @@ _INACTIVE_COLOR = (0.8, 0.8, 0.8, 1)
 
 
 class AddTransactionScreen(MDScreen):
+    def __init__(self, **kwargs: object) -> None:
+        super().__init__(**kwargs)
+        self.edit_tx: Transaction | None = None
+
+    def load_for_edit(self, tx: Transaction) -> None:
+        """Call before switching to this screen to open it in edit mode."""
+        self.edit_tx = tx
+
     def on_enter(self) -> None:
+        self._categories: list = []
+
+        if self.edit_tx is not None:
+            self._prefill_from(self.edit_tx)
+            return
+
         self._tx_type = "expense"
         self._category_id: int | None = None
-        self._categories: list = []
         self._selected_date = datetime.date.today()
 
+        self.ids.topbar.title = "Add Transaction"
+        self.ids.save_btn.text = "Save"
         self.ids.amount_field.text = ""
         self.ids.category_field.text = ""
         self.ids.note_field.text = ""
@@ -33,6 +48,22 @@ class AddTransactionScreen(MDScreen):
 
         self._apply_type_buttons()
         self._reload_categories()
+
+    def _prefill_from(self, tx: Transaction) -> None:
+        self._tx_type = tx.type
+        self._selected_date = tx.date
+        self._apply_type_buttons()
+        self._reload_categories()
+
+        self._category_id = tx.category_id
+        cat = next((c for c in self._categories if c.id == tx.category_id), None)
+
+        self.ids.topbar.title = "Edit Transaction"
+        self.ids.save_btn.text = "Update"
+        self.ids.amount_field.text = f"{Decimal(tx.amount) / 100:.2f}"
+        self.ids.category_field.text = cat.name if cat else ""
+        self.ids.note_field.text = tx.note
+        self.ids.date_field.text = tx.date.isoformat()
 
     def set_type(self, tx_type: str) -> None:
         self._tx_type = tx_type
@@ -113,8 +144,9 @@ class AddTransactionScreen(MDScreen):
             return
 
         paise = int(rupees * 100)
+        editing = self.edit_tx is not None
         tx = Transaction(
-            id=None,
+            id=self.edit_tx.id if editing else None,
             type=self._tx_type,
             amount=paise,
             category_id=self._category_id,
@@ -122,9 +154,15 @@ class AddTransactionScreen(MDScreen):
             note=self.ids.note_field.text.strip(),
             created_at=None,
         )
-        repository.add_transaction(tx)
-        Logger.info("AddTransaction: saved %s ₹%s", self._tx_type, rupees)
-        self.go_back()
+        if editing:
+            repository.update_transaction(tx)
+            Logger.info("AddTransaction: updated id=%s %s", tx.id, self._tx_type)
+            self.go_back("history")
+        else:
+            repository.add_transaction(tx)
+            Logger.info("AddTransaction: saved %s amount=%s", self._tx_type, rupees)
+            self.go_back()
 
-    def go_back(self) -> None:
-        self.manager.current = "home"
+    def go_back(self, target: str = "home") -> None:
+        self.edit_tx = None
+        self.manager.current = target

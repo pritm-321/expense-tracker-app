@@ -55,6 +55,14 @@ MIGRATIONS: list[str] = [
         value TEXT NOT NULL
     );
     """,
+    # v2 → v3: per-category monthly budgets
+    """
+    CREATE TABLE IF NOT EXISTS budgets (
+        category_id INTEGER PRIMARY KEY REFERENCES categories(id),
+        amount      INTEGER NOT NULL,
+        period      TEXT NOT NULL DEFAULT 'monthly' CHECK(period IN ('monthly'))
+    );
+    """,
 ]
 
 _DEFAULT_CATEGORIES: list[tuple[str, str, str, str]] = [

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import datetime
-from decimal import Decimal
 from pathlib import Path
 
 from kivy.lang import Builder
@@ -10,16 +9,12 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.screen import MDScreen
 
 from app.services import analytics, repository
+from app.utils.format import format_money
 from app.widgets.bottom_nav import BottomNavBar  # noqa: F401 — registers KV rule
 
 Builder.load_file(str(Path(__file__).parent.parent.parent / "assets" / "home.kv"))
 
 _RECENT_LIMIT = 10
-
-
-def _fmt_amount(paise: Decimal) -> str:
-    rupees = paise / 100
-    return f"₹{rupees:,.2f}"
 
 
 class HomeScreen(MDScreen):
@@ -36,11 +31,11 @@ class HomeScreen(MDScreen):
 
     def _load_summary(self, month: datetime.date) -> None:
         totals = analytics.monthly_totals(month)
-        self.ids.income_amount.text = _fmt_amount(totals["income"])
-        self.ids.expense_amount.text = _fmt_amount(totals["expense"])
+        self.ids.income_amount.text = format_money(totals["income"])
+        self.ids.expense_amount.text = format_money(totals["expense"])
 
         net = totals["net"]
-        self.ids.net_amount.text = _fmt_amount(net)
+        self.ids.net_amount.text = format_money(net)
         self.ids.net_amount.theme_text_color = "Custom"
         self.ids.net_amount.text_color = (
             (0.18, 0.65, 0.18, 1) if net >= 0 else (0.83, 0.18, 0.18, 1)

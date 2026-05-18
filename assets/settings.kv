@@ -1,0 +1,45 @@
+<SettingsScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        size_hint: 1, 1
+
+        MDTopAppBar:
+            title: "Settings"
+            elevation: 2
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                adaptive_height: True
+                padding: "16dp"
+                spacing: "20dp"
+
+                MDLabel:
+                    text: "Currency"
+                    font_style: "Subtitle1"
+                    adaptive_height: True
+
+                MDTextField:
+                    id: currency_field
+                    hint_text: "Currency symbol (tap to choose)"
+                    mode: "rectangle"
+                    readonly: True
+                    size_hint_y: None
+                    height: "56dp"
+                    on_focus: if self.focus: root.open_currency_menu()
+
+                MDLabel:
+                    text: "Appearance"
+                    font_style: "Subtitle1"
+                    adaptive_height: True
+
+                MDRaisedButton:
+                    id: theme_btn
+                    text: "Theme: Light"
+                    size_hint_x: 1
+                    height: "48dp"
+                    on_release: root.toggle_theme()
+                    md_bg_color: app.theme_cls.primary_color
+
+        BottomNavBar:
+            active_tab: "settings"

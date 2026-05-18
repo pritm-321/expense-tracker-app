@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-from decimal import Decimal
-
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivymd.uix.card import MDCard
 
 from app.models.transaction import Transaction
 from app.models.category import Category
+from app.utils.format import format_money
 
 Builder.load_string("""
 <TransactionCard>:
@@ -67,9 +66,8 @@ class TransactionCard(MDCard):
         **kwargs: object,
     ) -> None:
         super().__init__(**kwargs)
-        amount = Decimal(transaction.amount) / 100
         sign = "+" if transaction.type == "income" else "-"
-        self.ids.amount_label.text = f"{sign}₹{amount:,.2f}"
+        self.ids.amount_label.text = f"{sign}{format_money(transaction.amount)}"
         self.ids.amount_label.text_color = (
             _INCOME_COLOR if transaction.type == "income" else _EXPENSE_COLOR
         )

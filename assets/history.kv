@@ -9,6 +9,51 @@
             left_action_items: [["chevron-left", lambda x: root.prev_month()]]
             right_action_items: [["chevron-right", lambda x: root.next_month()]]
 
+        MDBoxLayout:
+            orientation: 'vertical'
+            adaptive_height: True
+            padding: "12dp", "8dp", "12dp", "0dp"
+            spacing: "8dp"
+
+            MDTextField:
+                id: search_field
+                hint_text: "Search note"
+                mode: "rectangle"
+                size_hint_y: None
+                height: "48dp"
+                on_text: root.set_search(self.text)
+
+            MDBoxLayout:
+                adaptive_height: True
+                spacing: "8dp"
+
+                MDRaisedButton:
+                    id: type_all
+                    text: "All"
+                    size_hint_x: 1
+                    on_release: root.set_type_filter(None)
+
+                MDRaisedButton:
+                    id: type_income
+                    text: "Income"
+                    size_hint_x: 1
+                    on_release: root.set_type_filter("income")
+
+                MDRaisedButton:
+                    id: type_expense
+                    text: "Expense"
+                    size_hint_x: 1
+                    on_release: root.set_type_filter("expense")
+
+            MDTextField:
+                id: category_filter
+                hint_text: "All categories"
+                mode: "rectangle"
+                readonly: True
+                size_hint_y: None
+                height: "48dp"
+                on_focus: if self.focus: root.open_category_filter()
+
         ScrollView:
             MDBoxLayout:
                 orientation: 'vertical'

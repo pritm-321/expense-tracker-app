@@ -34,6 +34,8 @@ def test_init_db_creates_tables(tmp_db: Path) -> None:
     assert "transactions" in tables
     assert "categories" in tables
     assert "schema_version" in tables
+    assert "settings" in tables
+    assert "budgets" in tables
 
 
 def test_init_db_seeds_default_categories(tmp_db: Path) -> None:

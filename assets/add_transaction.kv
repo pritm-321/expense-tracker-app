@@ -9,6 +9,7 @@
         size_hint: 1, 1
 
         MDTopAppBar:
+            id: topbar
             title: "Add Transaction"
             elevation: 2
             left_action_items: [["arrow-left", lambda x: root.go_back()]]
@@ -78,6 +79,7 @@
 
                 # ── Save ─────────────────────────────────────────────────
                 MDRaisedButton:
+                    id: save_btn
                     text: "Save"
                     size_hint_x: 1
                     height: "48dp"
