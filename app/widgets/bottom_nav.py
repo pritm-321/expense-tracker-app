@@ -15,6 +15,7 @@ Builder.load_string("""
         icon: "home" if root.active_tab == "home" else "home-outline"
         theme_icon_color: "Custom"
         icon_color: app.theme_cls.primary_color if root.active_tab == "home" else (0.5, 0.5, 0.5, 1)
+        size_hint_x: 1
         pos_hint: {"center_y": 0.5}
         on_release: root.switch_to("home")
 
@@ -22,6 +23,7 @@ Builder.load_string("""
         icon: "history"
         theme_icon_color: "Custom"
         icon_color: app.theme_cls.primary_color if root.active_tab == "history" else (0.5, 0.5, 0.5, 1)
+        size_hint_x: 1
         pos_hint: {"center_y": 0.5}
         on_release: root.switch_to("history")
 
@@ -29,6 +31,7 @@ Builder.load_string("""
         icon: "shape" if root.active_tab == "categories" else "shape-outline"
         theme_icon_color: "Custom"
         icon_color: app.theme_cls.primary_color if root.active_tab == "categories" else (0.5, 0.5, 0.5, 1)
+        size_hint_x: 1
         pos_hint: {"center_y": 0.5}
         on_release: root.switch_to("categories")
 
@@ -36,6 +39,7 @@ Builder.load_string("""
         icon: "cog" if root.active_tab == "settings" else "cog-outline"
         theme_icon_color: "Custom"
         icon_color: app.theme_cls.primary_color if root.active_tab == "settings" else (0.5, 0.5, 0.5, 1)
+        size_hint_x: 1
         pos_hint: {"center_y": 0.5}
         on_release: root.switch_to("settings")
 """)
